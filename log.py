@@ -55,82 +55,124 @@ def search_by_date(user_date):
     """
     Searches the csv file for a given valid date by the user.
     """
-    with open("log.csv", newline='') as csvfile:
-        log_reader = csv.DictReader(csvfile)
-        rows = list(log_reader)
+    try:
+        with open("log.csv", newline='') as csvfile:
+            fieldnames = ['Date', 'Task Name', 'Time Spent', 'Notes']
+            log_reader = csv.DictReader(csvfile, fieldnames=fieldnames)
+            rows = list(log_reader)
 
-        found = False
-        for row in rows:
-            if row['Date'] == user_date:
-                found = True
-                print('Date:', row['Date'])
-                print('Title:', row['Task Name'])
-                print('Time Spent:', row['Time Spent'])
-                print('Notes:', row['Notes'])
-                print('')
-        if not found:
-            print('Entry does not exist')
+            found = False
+            for row in rows:
+                if row['Date'] == user_date:
+                    found = True
+                    print('Date:', row['Date'])
+                    print('Title:', row['Task Name'])
+                    print('Time Spent:', row['Time Spent'])
+                    print('Notes:', row['Notes'])
+                    print('')
+            if found:
+                input('Search results displayed. Press enter to return to '
+                      'the search'
+                      'menu')
+            if not found:
+                print('Entry does not exist')
+    except FileNotFoundError:
+        print('No entries have been recorded yet.')
+        input('Press enter to return to the search menu')
 
 
 def search_by_time_spent(user_time):
     """
     Searches the csv file for entries matching the elapsed time given by user.
     """
-    with open("log.csv", newline='') as csvfile:
-        log_reader = csv.DictReader(csvfile)
-        rows = list(log_reader)
+    try:
+        with open("log.csv", newline='') as csvfile:
+            fieldnames = ['Date', 'Task Name', 'Time Spent', 'Notes']
+            log_reader = csv.DictReader(csvfile, fieldnames=fieldnames)
+            rows = list(log_reader)
 
-        found = False
-        for row in rows:
-            if row['Time Spent'] == str(user_time):
-                found = True
-                print('Date:', row['Date'])
-                print('Title:', row['Task Name'])
-                print('Time Spent:', row['Time Spent'])
-                print('Notes:', row['Notes'])
-                print('')
+            found = False
+            for row in rows:
+                if row['Time Spent'] == str(user_time):
+                    found = True
+                    print('Date:', row['Date'])
+                    print('Title:', row['Task Name'])
+                    print('Time Spent:', row['Time Spent'])
+                    print('Notes:', row['Notes'])
+                    print('')
 
-        if not found:
-            print('Entry does not exist')
+            if found:
+                input('Search results displayed. Press enter to return to '
+                      'the search'
+                      'menu')
+
+            if not found:
+                print('Entry does not exist')
+    except FileNotFoundError:
+        print('No entries have been recorded yet')
+        input('Press enter to return to the search menu')
 
 
 def search_by_exact_search(user_string):
     """
     Searches the notes and task name columns against the given user_string.
     """
-    with open("log.csv", newline='') as csvfile:
-        log_reader = csv.DictReader(csvfile)
-        rows = list(log_reader)
+    try:
 
-        found = False
-        for row in rows:
-            if row['Task Name'] == user_string or row['Notes'] == user_string:
-                found = True
-                print('Date:', row['Date'])
-                print('Title:', row['Task Name'])
-                print('Time Spent:', row['Time Spent'])
-                print('Notes:', row['Notes'])
-                print('')
+        with open("log.csv", newline='') as csvfile:
+            fieldnames = ['Date', 'Task Name', 'Time Spent', 'Notes']
+            log_reader = csv.DictReader(csvfile, fieldnames=fieldnames)
+            rows = list(log_reader)
 
-        if not found:
-            print('Entry does not exist')
+            found = False
+            for row in rows:
+                if row['Task Name'] == user_string or row['Notes'] ==  \
+                        user_string:
+                    found = True
+                    print('Date:', row['Date'])
+                    print('Title:', row['Task Name'])
+                    print('Time Spent:', row['Time Spent'])
+                    print('Notes:', row['Notes'])
+                    print('')
+            if found:
+                input('Search results displayed. Press enter to return to '
+                      'the search'
+                      'menu')
+            if not found:
+                print('Entry does not exist')
+    except FileNotFoundError:
+        print('No entries have been recorded yet.')
+        input('Press enter to return to the search menu')
 
 
 def search_by_pattern(user_pattern):
     """
     Searches the csv file for a given regex pattern.
     """
-    with open("log.csv", newline='') as csvfile:
-        log_reader = csv.DictReader(csvfile)
-        rows = list(log_reader)
+    try:
+        with open("log.csv", newline='') as csvfile:
+            fieldnames = ['Date', 'Task Name', 'Time Spent', 'Notes']
+            log_reader = csv.DictReader(csvfile, fieldnames=fieldnames)
+            rows = list(log_reader)
 
-        for row in rows:
-            if user_pattern.search(str(row)):
-                print('Date:', row['Date'])
-                print('Title:', row['Task Name'])
-                print('Time Spent:', row['Time Spent'])
-                print('Notes:', row['Notes'])
-                print('')
+            found = False
+            for row in rows:
+                if user_pattern.search(str(row)):
+                    found = True
+                    print('Date:', row['Date'])
+                    print('Title:', row['Task Name'])
+                    print('Time Spent:', row['Time Spent'])
+                    print('Notes:', row['Notes'])
+                    print('')
+            if found:
+                input('Search results displayed. Press enter to return to '
+                      'the search menu')
+            if not found:
+                print('Entry does not exist')
+    except FileNotFoundError:
+        print('No entries have been recorded yet')
+        input('Search results displayed. Press enter to return to the main'
+              'menu')
 
 
 def search():
@@ -148,8 +190,6 @@ def search():
 
         if search_input.upper() == 'A':
             valid_date_search()
-            input('Search results displayed. Press enter to return to the main'
-                  'menu')
 
         if search_input.upper() == 'B':
             while True:
@@ -160,14 +200,10 @@ def search():
                     print('Please enter a valid integer')
 
             search_by_time_spent(user_time)
-            input('Search results displayed. Press enter to return to the main'
-                  'menu')
 
         if search_input.upper() == 'C':
             user_string = input('Please enter a string to search: ')
             search_by_exact_search(user_string)
-            input('Search results displayed. Press enter to return to the main'
-                  'menu')
 
         if search_input.upper() == 'D':
             pattern_input = input('Please enter a regex pattern to search: ')
@@ -176,8 +212,6 @@ def search():
              ''' % pattern_input, re.X | re.M))
 
             search_by_pattern(user_pattern)
-            input('Search results displayed. Press enter to return to the main'
-                  'menu')
 
         if search_input.upper() == 'E':
             break
@@ -223,4 +257,3 @@ def main_menu():
 
 
 main_menu()
-
